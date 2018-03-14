@@ -1,6 +1,6 @@
 name: nfc
 description: Flutter plugin for reading NFC tags. Supports Android only.
-version: 0.0.3
+version: 0.0.4
 author: Chaitanya Munukutla <chaitanya.m61292@gmail.com>
 homepage: https://github.com/munukutla/flutter-nfc
 
