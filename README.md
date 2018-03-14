@@ -2,6 +2,10 @@
 
 Flutter plugin for reading NFC tags. Supports Android 6.0 and above.
 
+## Notice
+
+This is a work in progress. It might be unstable. DO NOT USE IN PRODUCTION.
+
 ## Usage
 
 To use this plugin, add `nfc` as a dependency in your pubspec.yaml file.
