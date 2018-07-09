@@ -5,8 +5,19 @@ import 'package:flutter/services.dart';
 class Nfc {
   static const MethodChannel _channel = const MethodChannel('nfc');
 
-  static Future<String> get platformVersion =>
-      _channel.invokeMethod('getPlatformVersion');
+  static Future<String> get platformVersion async {
+    String result;
+    await _channel.invokeMethod('getPlatformVersion').then((value) {
+      result = value;
+    });
+    return result;
+  }
 
-  static Future<String> get readTag => _channel.invokeMethod('read');
+  static Future<String> get readTag async {
+    String result;
+    await _channel.invokeMethod('read').then((value) {
+      result = value;
+    });
+    return result;
+  }
 }
