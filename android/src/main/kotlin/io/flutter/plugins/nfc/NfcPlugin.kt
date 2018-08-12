@@ -18,7 +18,7 @@ class NfcPlugin() : MethodCallHandler {
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
         if (call.method.equals("getPlatformVersion")) {
             result.success("Android ${android.os.Build.VERSION.RELEASE}")
-        } else if (call.method.equals("read") {
+        } else if (call.method.equals("read")) {
             readNFC()
         } else {
             result.notImplemented()
