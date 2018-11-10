@@ -1,12 +1,37 @@
 package io.flutter.plugins.nfc
 
+import io.flutter.app.FlutterActivity
+import android.app.Activity
+import android.app.PendingIntent
+import android.content.Intent
+import android.content.IntentFilter
+import android.nfc.NdefRecord
+import android.nfc.NfcAdapter
+import android.nfc.Tag
+import android.nfc.tech.Ndef
+import android.os.AsyncTask
+import android.os.Bundle
+import android.util.Log
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
+import java.util.*
 
-class NfcPlugin() : MethodCallHandler {
+import kotlin.experimental.and
+
+class NfcPlugin() : MethodCallHandler, FlutterActivity() {
+
+    private var nfcAdapter: NfcAdapter? = null
+    val MIME_TEXT_PLAIN = "text/plain"
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+  }
+
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
@@ -26,12 +51,12 @@ class NfcPlugin() : MethodCallHandler {
     }
 
     private fun readNFC() {
-        nfcAdapter.let {
-            if (nfcAdapter?.isEnabled!!) {
-                print("NFC not enable")
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        if (nfcAdapter != null) {
+            if (nfcAdapter!!.isEnabled!!) {
+                print("NFC not enabled")
                 return
             }
-
             handleIntent(intent)
         }
     }
@@ -80,7 +105,7 @@ class NfcPlugin() : MethodCallHandler {
         filters[0]?.addCategory(Intent.CATEGORY_DEFAULT)
         try {
             filters[0]?.addDataType(MIME_TEXT_PLAIN)
-        } catch (e: MalformedMimeTypeException) {
+        } catch (e: IntentFilter.MalformedMimeTypeException) {
             throw RuntimeException("Check your mime type.")
         }
 
@@ -145,7 +170,7 @@ class NfcPlugin() : MethodCallHandler {
 
         override fun onPostExecute(result: String?) {
             if (result != null) {
-                print("Read content: " + result)
+                print("Read content: $result")
             }
         }
     }
